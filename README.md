@@ -18,8 +18,16 @@ You must have `ncurses` installed on your machine. This project was developed in
 make
 ```
 
+Runs with the example program.
+
 ```
 ./bin/emulator.out
+```
+
+To run a custom program.
+
+```
+./bin/emulator.out <filename>
 ```
 
 Or you can run the _shortcut_ script
