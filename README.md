@@ -18,16 +18,10 @@ You must have `ncurses` installed on your machine. This project was developed in
 make
 ```
 
-Runs with the example program.
+To run with the example program.
 
 ```
 ./bin/emulator.out
-```
-
-To run a custom program.
-
-```
-./bin/emulator.out <filename>
 ```
 
 Or you can run the _shortcut_ script
@@ -60,6 +54,17 @@ After quitting, the program dumps its memory to a `.bin` file.
 ## Example program
 
 The loaded program multiplies 10 by 3, in order to try it you must single step instructions until you see `1E` (30) in the third memory cell in the zero page. You can continue to single step it but nothing will happen.
+
+## Load custom programs
+
+To load your program.
+
+```
+./bin/emulator.out yourfile.bin
+```
+
+To create your own program you can use VASM, using the "vasm6502_oldstyle" executable (see the example in "prog.asm" file).
+
 
 ## TODO
 
