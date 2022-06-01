@@ -8,6 +8,7 @@ headers = src/mem/mem.h src/cpu/cpu.h src/cpu/instructions.h src/peripherals/int
 all: bin/emulator.out
 	
 bin/emulator.out: $(sources) $(headers)
+	@mkdir -p bin
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(sources) $(LDLIBS)
 
 
