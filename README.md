@@ -60,7 +60,6 @@ Do you want to contribute? Here are some things that are still a WIP.
 -   [ ] check for errors on cpu_fetch() calls
 -   [ ] add remaining comments to `instructions.c`
 -   [ ] create a better interface
--   [X] add the possibility to load custom programs (SOLVED)
 
 ## References
 
