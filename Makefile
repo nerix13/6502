@@ -1,4 +1,4 @@
-CFLAGS	= -Wall -Wextra -pedantic -std=c99
+CFLAGS	= -pedantic -std=c99 -Wno-overflow
 LDFLAGS	= -L/usr/local/lib
 LDLIBS	= -lm -lncurses
 
@@ -8,7 +8,6 @@ headers = src/mem/mem.h src/cpu/cpu.h src/cpu/instructions.h src/peripherals/int
 all: bin/emulator.out
 	
 bin/emulator.out: $(sources) $(headers)
-	@mkdir -p bin
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(sources) $(LDLIBS)
 
 

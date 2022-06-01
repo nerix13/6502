@@ -11,9 +11,9 @@ void interface_display_header(void) {
     mvprintw(1, 3, "6502 Emulator");
     mvprintw(2, 3, "-----------------------");
     mvprintw(3, 5, "Commands:");
-    mvprintw(4, 7, "Enter: executes next instruction");
-    mvprintw(5, 7, "r: Resets CPU");
-    mvprintw(6, 7, "q: Quits");
+    mvprintw(4, 7, "\tEnter: executes next instruction");
+    mvprintw(5, 7, "\tr: Resets CPU");
+    mvprintw(6, 7, "\tq: Quits");
     mvprintw(7, 3, "-----------------------");
 }
 

@@ -13,7 +13,9 @@ struct mem {
     uint8_t data[TOTAL_MEM - 0x206];
 };
 
-void mem_init(char* filename);
+void load_bin(char *path);
+void mem_init(void);
+void load_example();
 int mem_dump(void);
 struct mem* mem_get_ptr(void);
 
