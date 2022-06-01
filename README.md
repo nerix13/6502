@@ -18,8 +18,6 @@ You must have `ncurses` installed on your machine. This project was developed in
 make
 ```
 
-To run with the example program.
-
 ```
 ./bin/emulator.out
 ```
