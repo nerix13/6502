@@ -2,7 +2,7 @@
 ;
 ; Compiled with VASM, using vasm6502_oldstyle
 ;
-; To compile the program:
+; To compile the program (In my case, in Windows):
 ;
 ; vasm6502_oldstyle_win32.exe prog.asm -o prog.bin -Fbin
 
