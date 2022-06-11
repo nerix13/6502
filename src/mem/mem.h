@@ -6,6 +6,10 @@
 
 #define TOTAL_MEM 1024 * 64
 
+#define ZERO_PAGE		0x0000 
+#define SYS_STACK		0x0100 
+#define ROM 			0x8000
+
 struct mem {
     uint8_t zero_page[0x100];
     uint8_t stack[0x100];
@@ -13,9 +17,8 @@ struct mem {
     uint8_t data[TOTAL_MEM - 0x206];
 };
 
-void load_bin(char *path);
-void mem_init(void);
-void load_example();
+char *to_binary(int n);
+void mem_init(char *filename);
 int mem_dump(void);
 struct mem* mem_get_ptr(void);
 

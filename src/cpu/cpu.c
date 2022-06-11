@@ -115,8 +115,8 @@ static uint8_t write_mem(uint16_t addr, uint8_t data) {
 
 /**
  * cpu_fetch: Fetch memory from a given address
- * @param void
- * @return void
+ * @param addr address that's being reading
+ * @return The retrieved data
  */
 uint8_t cpu_fetch(uint16_t addr) {
     debug_print("(cpu_fetch) reading at: 0x%X\n", addr);

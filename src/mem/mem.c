@@ -1,16 +1,10 @@
 #include "mem.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "../utils/misc.h"
-
-#define ZERO_PAGE		0x0000 
-#define ZERO_PAGE_END	0x00ff
-#define SYS_STACK		0x0100 
-#define SYS_STACK_END	0x01ff 
-#define ROM 			0x8000
 
 /**
  * The memory:
@@ -26,14 +20,40 @@
 struct mem memory;
 
 
+char *to_binary(int n) {
+  /* from: https://www.programmingsimplified.com/c/source-code/c-program-convert-decimal-to-binary */
+  int c, d, t;
+  char *p;
+  t = 0;
+  p = (char*) malloc(8+1);
+  
+  if (p == NULL)
+	exit(EXIT_FAILURE);
+
+  for (c = 7; c >= 0 ; c--) {
+	d = n >> c;
+
+	if (d & 1)
+	  *(p+t) = 1 + '0';
+	else
+	  *(p+t) = 0 + '0';
+	t++;
+  }
+
+  *(p+t) = '\0';
+
+  return  p;
+}
+
+
 static uint8_t write_mem(uint16_t addr, int8_t data) {
     debug_print("(write_mem) writing: 0x%X at addr: 0x%X\n", data, addr);
     // NOTE: this yields "warning: comparison is always true due to limited range of
     // data type" if (!(addr >= 0x0000 && addr <= 0xFFFF)) return 1;
-
-    if (addr <= ZERO_PAGE_END) {
+  
+    if (addr <= ZERO_PAGE + 0xff) {
         memory.zero_page[addr] = data;
-    } else if (addr >= SYS_STACK && addr <= SYS_STACK_END) {
+    } else if (addr >= SYS_STACK && addr <= SYS_STACK + 0xff) {
         memory.stack[addr - 0x0100] = data;
     } else if (addr >= 0xFFFA) {
         memory.last_six[addr - 0xFDFA] = data;
@@ -50,16 +70,16 @@ static uint8_t write_mem(uint16_t addr, int8_t data) {
  * @param void
  * @return void
  * */
-void load_example(void) {
+static void load_example(void) {
     const char* instructions[] = {
         "A2", "0A", "8E", "00", "00", "A2", "03", "8E", "01", "00",
         "AC", "00", "00", "A9", "00", "18", "6D", "01", "00", "88",
         "D0", "FA", "8D", "02", "00", "EA", "EA", "EA",
     };
 
-    uint16_t off = ROM; // 0x8000
+    uint16_t addr = ROM; // 0x8000
     for (uint8_t i = 0; i < 28; i++) {
-        write_mem(off++, strtoul(instructions[i], NULL, 16));
+        write_mem(addr++, strtoul(instructions[i], NULL, 16));
     }
 
     write_mem(0xFFFC, (uint8_t) 0x00);
@@ -67,31 +87,25 @@ void load_example(void) {
 }
 
 /**
- * @description: Save the bin file in ROM
+ * @description: Copy the content of bin file to 6502 ROM
  * @param path -> bin program file
  * @return void
  */
-void load_bin(char *path) {
+static void load_program(char *filename) {
   uint16_t addr;
   FILE *fp;
-  int opc;
+  int opc; // NOTE: changed to Integer type to verify if it's EOF while reading the bin file
 
-  fp = fopen(path, "rb");
+  fp = fopen(filename, "rb");
 
   if (!fp) {
-	fprintf(stderr, "[ load_bin(*path) :error] -> the program doesn't exists!\n");
+	fprintf(stderr, "[x] PROGRAM NOT FOUND -> the program doesn't exists!\n");
 	exit(EXIT_FAILURE);
   }
 
   addr = ROM; // 0x8000
 
-  printf("[ Reading ROM FILE ] ...\n\n");
-
-  while ((opc = fgetc(fp)) != EOF) {
-	printf("\t%04x: %02x\n", addr, opc);
-	write_mem(addr, opc);
-	addr++;
-  }
+  while ((opc = fgetc(fp)) != EOF) write_mem(addr++, opc);
 
   // im not really sure about this
   write_mem(0xFFFC, 0x00);
@@ -106,7 +120,7 @@ void load_bin(char *path) {
  * @param void
  * @return void
  * */
-void mem_init(void) {
+void mem_init(char *filename) {
     memset(memory.zero_page, 0, sizeof(memory.zero_page));
     memset(memory.stack, 0, sizeof(memory.stack));
     memset(memory.data, 0, sizeof(memory.data));
@@ -118,8 +132,14 @@ void mem_init(void) {
     memory.last_six[3] = 0xD;
     memory.last_six[4] = 0xE;
     memory.last_six[5] = 0xF;
-
-    //load_example();
+	
+	if (strlen(filename) > 0) {
+	  load_program(filename);
+	  printf("\n[-!-] Verifying program loaded... NAME: \"%s\"\n", filename);
+	} else {
+	  printf("[!] NO PROGRAM LOADED -> loading \"example.bin\"\n");
+	  load_example();
+	}
 }
 
 /**

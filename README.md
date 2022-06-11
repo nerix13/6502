@@ -42,7 +42,7 @@ The project is divided in multiple components:
     -   **instructions handler**: here we handle OP codes
 -   **mem**: pretty simple memory implementation, each page has a dedicated array
 -   **peripherals**
-    -   **interface**: everyhting ncurses related
+    -   **interface**: everything ncurses related
     -   **keyboard handler**: listener for key presses
 
 ## Dump feature

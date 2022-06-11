@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 #include "../utils/misc.h"
+#include "../mem/mem.h"
 #include "cpu.h"
 
 /*
@@ -190,7 +191,7 @@ struct instruction lookup[256] = {
 };
 
 // absolute address in memory
-uint16_t addr_abs = 0x0000;
+uint16_t addr_abs = 0x8000;
 
 // relative address in memory
 uint16_t addr_rel = 0x0000;
@@ -1050,7 +1051,14 @@ static uint8_t TSX(void) {
 }
 
 static uint8_t JMP(void) {
-    cpu.pc = addr_abs;
+	struct mem* mp = mem_get_ptr();
+	// NOTE: This address only works in small programs. When you run a small program,
+	// the High Byte is 00 and Low Byte is a number like 05, it will works. But
+	// if the program is too big, the sum will return a diferent value.
+	
+	uint16_t target = mp->data[(cpu.pc-2) - 0x200] + mp->data[(cpu.pc-1) - 0x200];
+    
+	cpu.pc = ROM + target; // $8000 + LOW BYTE
     return 0;
 }
 
