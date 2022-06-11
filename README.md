@@ -2,7 +2,7 @@
 
 A minimal, single-stepped and beginner friendly 6502 emulator written in C using ncurses for graphics.
 
-![thumbnail](./images/thumbnail.png)
+![thumbnail](./images/thumbnail2.png)
 
 ## DISCLAIMER
 
@@ -70,7 +70,7 @@ Do you want to contribute? Here are some things that are still a WIP.
 
 -   [ ] check for errors on cpu_fetch() calls
 -   [ ] add remaining comments to `instructions.c`
--   [ ] create a better interface
+-   [x] create a better interface
 
 ## References
 
