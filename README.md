@@ -49,6 +49,10 @@ The project is divided in multiple components:
 
 After quitting, the program dumps its memory to a `.bin` file.
 
+## Auto/exec mode feature
+
+To make the loaded program run automatically, use the argument `--auto-exec`. Example: `./bin/emulator.out prog.bin --auto-exec`
+
 ## Example program
 
 The loaded program multiplies 10 by 3, in order to try it you must single step instructions until you see `1E` (30) in the third memory cell in the zero page. You can continue to single step it but nothing will happen.
