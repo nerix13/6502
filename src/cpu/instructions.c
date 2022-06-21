@@ -1051,14 +1051,7 @@ static uint8_t TSX(void) {
 }
 
 static uint8_t JMP(void) {
-	struct mem* mp = mem_get_ptr();
-	// NOTE: This address only works in small programs. When you run a small program,
-	// the High Byte is 00 and Low Byte is a number like 05, it will works. But
-	// if the program is too big, the sum will return a diferent value.
-	
-	uint16_t target = mp->data[(cpu.pc-2) - 0x200] + mp->data[(cpu.pc-1) - 0x200];
-    
-	cpu.pc = ROM + target; // $8000 + LOW BYTE
+	cpu.pc = addr_abs;
     return 0;
 }
 
